@@ -41,7 +41,7 @@ plt.imshow(img, cmap='gray', vmin=0, vmax=255)
 plt.sca(ax2)
 plt.imshow(smooth_img, cmap='gray', vmin=0, vmax=255)
 plt.show()
-"""
+
 
 
 ## function gaussdx (Question 1.c)
@@ -86,7 +86,7 @@ plt.subplot(2,3,6)
 plt.imshow(conv2(conv2(img_imp, Gx.T, 'same'), Dx, 'same') , cmap='gray')
 plt.show()
 
-
+"""
 
 ## function gaussderiv (Question 1.e)
 

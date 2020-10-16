@@ -3,8 +3,6 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from scipy.signal import convolve2d as conv2
-import scipy.ndimage as ndimage
-
 
 
 """
@@ -15,9 +13,8 @@ The function should return the Gaussian values Gx computed at the indexes x
 def gauss(sigma):
     
     #...
-    Gx = [helpFunction(sigma, i) for i in range(-3 * int(sigma), 3 * int(sigma) + 1)]
-    x = [i for i in range(-3*int(sigma), 3*int(sigma)+1)]
-    return Gx, x
+    r = [i for i in range(-3*int(sigma), 3*int(sigma)+1)]
+    return np.array([1 / (sigma * math.sqrt(2*math.pi)) * math.exp(-float(x)**2/(2*sigma**2)) for x in r]), r
 
 
 
@@ -35,15 +32,22 @@ Output: smoothed image
 def gaussianfilter(img, sigma):
     
     #...
-    size = int(sigma**2)
-    kernel_1D = np.linspace(-(size // 2), size // 2, size)
-    for i in range(size):
-        kernel_1D[i] = helpFunction(sigma, kernel_1D[i])
+    kernel_1D = gauss(sigma)[0] 
+    """
+    kernel = np.outer(kernel_1D, kernel_1D) # mul kernel to have 2D matrix
     
-    kernel_2D = np.outer(kernel_1D[::-1], kernel_1D[::-1])
-    #img = ndimage.gaussian_filter(img, sigma=(5, 5, 0), order=0)    
-    return conv2(img, kernel_2D)
-
+    return conv2(img, kernel, mode='valid') # return blurred image.
+    """
+    
+    newImage = np.zeros((len(img), len(img[0])))
+    
+    for row in range(len(img)):
+        newImage[row,:] = np.convolve(img[row], kernel_1D, mode='same')
+    
+    for col in range(len(img[0])):
+        newImage[:,col] = np.convolve(newImage[:,col], kernel_1D, mode='same')
+    
+    return newImage
 
 
 """
@@ -53,12 +57,11 @@ The function should return the Gaussian derivative values Dx computed at the ind
 """
 def gaussdx(sigma):
 
-    #...
-    
-    #return Dx, x
-    pass
+    r = [i for i in range(-3*int(sigma), 3*int(sigma)+1)]
+    return np.array([1 / (sigma**3 * math.sqrt(2*math.pi)) * x * math.exp(-float(x)**2/(2*sigma**2)) for x in r]), r
 
-
+def helpFunction2(i, sigma):
+    return 1 / (math.sqrt(2 * math.pi) * sigma**3) * i * math.exp(-float(i)**2 /2*sigma**2)
 
 def gaussderiv(img, sigma):
 
