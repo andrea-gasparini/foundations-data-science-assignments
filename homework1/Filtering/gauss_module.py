@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import convolve2d as conv2
 
 
+
 """
 Gaussian function taking as argument the standard deviation sigma
 The filter should be defined for all integer values x in the range [-3sigma,3sigma]
@@ -12,14 +13,9 @@ The function should return the Gaussian values Gx computed at the indexes x
 """
 def gauss(sigma):
     
-    #...
     r = [i for i in range(-3*int(sigma), 3*int(sigma)+1)]
     return np.array([1 / (sigma * math.sqrt(2*math.pi)) * math.exp(-float(x)**2/(2*sigma**2)) for x in r]), r
 
-
-
-def helpFunction(sigma, i):
-    return 1 / (math.sqrt(2*math.pi) * sigma) * math.exp(-float(i)**2/(2*sigma**2))
 
 
 """
@@ -31,7 +27,6 @@ Output: smoothed image
 """
 def gaussianfilter(img, sigma):
     
-    #...
     kernel_1D = gauss(sigma)[0] 
     """
     kernel = np.outer(kernel_1D, kernel_1D) # mul kernel to have 2D matrix
@@ -50,6 +45,7 @@ def gaussianfilter(img, sigma):
     return newImage
 
 
+
 """
 Gaussian derivative function taking as argument the standard deviation sigma
 The filter should be defined for all integer values x in the range [-3sigma,3sigma]
@@ -60,13 +56,7 @@ def gaussdx(sigma):
     r = [i for i in range(-3*int(sigma), 3*int(sigma)+1)]
     return np.array([1 / (sigma**3 * math.sqrt(2*math.pi)) * x * math.exp(-float(x)**2/(2*sigma**2)) for x in r]), r
 
-def helpFunction2(i, sigma):
-    return 1 / (math.sqrt(2 * math.pi) * sigma**3) * i * math.exp(-float(i)**2 /2*sigma**2)
-
 def gaussderiv(img, sigma):
 
-    #...
-    
-     #return imgDx, imgDy
+    #return imgDx, imgDy
     pass
-
