@@ -3,6 +3,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from scipy.signal import convolve2d as conv2
+import scipy.ndimage as ndimage
 
 
 
@@ -14,9 +15,14 @@ The function should return the Gaussian values Gx computed at the indexes x
 def gauss(sigma):
     
     #...
-    
+    Gx = [helpFunction(sigma, i) for i in range(-3 * int(sigma), 3 * int(sigma) + 1)]
+    x = [i for i in range(-3*int(sigma), 3*int(sigma)+1)]
     return Gx, x
 
+
+
+def helpFunction(sigma, i):
+    return 1 / (math.sqrt(2*math.pi) * sigma) * math.exp(-float(i)**2/(2*sigma**2))
 
 
 """
@@ -29,8 +35,14 @@ Output: smoothed image
 def gaussianfilter(img, sigma):
     
     #...
-
-    return smooth_img
+    size = int(sigma**2)
+    kernel_1D = np.linspace(-(size // 2), size // 2, size)
+    for i in range(size):
+        kernel_1D[i] = helpFunction(sigma, kernel_1D[i])
+    
+    kernel_2D = np.outer(kernel_1D[::-1], kernel_1D[::-1])
+    #img = ndimage.gaussian_filter(img, sigma=(5, 5, 0), order=0)    
+    return conv2(img, kernel_2D)
 
 
 
@@ -43,7 +55,8 @@ def gaussdx(sigma):
 
     #...
     
-    return Dx, x
+    #return Dx, x
+    pass
 
 
 
@@ -51,5 +64,6 @@ def gaussderiv(img, sigma):
 
     #...
     
-    return imgDx, imgDy
+     #return imgDx, imgDy
+    pass
 

@@ -22,10 +22,10 @@ def rgb2gray(rgb):
 sigma = 4.0
 [Gx, x] = gauss_module.gauss(sigma)
 
+
 plt.figure(1)
 plt.plot(x, Gx, '.-')
 plt.show()
-
 
 
 ## function gaussianfilter (Question 1.b)
@@ -41,7 +41,7 @@ plt.imshow(img, cmap='gray', vmin=0, vmax=255)
 plt.sca(ax2)
 plt.imshow(smooth_img, cmap='gray', vmin=0, vmax=255)
 plt.show()
-
+"""
 
 
 ## function gaussdx (Question 1.c)
@@ -106,5 +106,5 @@ plt.sca(ax3)
 imgmag = np.sqrt(imgDx**2 + imgDy**2)
 plt.imshow(imgmag, cmap='gray')
 plt.show()
-
+"""
 
