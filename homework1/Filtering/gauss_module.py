@@ -62,13 +62,23 @@ def gaussdx(sigma):
     return np.array([mathGaussDx(i, sigma) for i in range(-3*int(sigma), 3*int(sigma)+1)]), x
 
 def mathGaussDx(x, sigma):
-    return 1 / (sigma**3 * sqrt(2*pi)) * x * e(-float(x)**2/(2*sigma**2))
+    return - 1 / (sigma**3 * sqrt(2*pi)) * x * e(-float(x)**2/(2*sigma**2))
 
 def gaussderiv(img, sigma):
     kernel_1D = gaussdx(sigma)[0]
     
+    sigma = int(sigma)
+    imagePadded = np.pad(img, (3*sigma, 3*sigma), 'constant')
     imgDx = np.zeros((len(img), len(img[0])))
     imgDy = np.zeros((len(img), len(img[0])))
-    imgDx = convolutionImage(imgDx, img, kernel_1D) # convolution sulle x
-    imgDy = convolutionImage(imgDy, img, kernel_1D, row=False) # convolution sulle y
+    
+    
+    for i in range(3*sigma, len(imagePadded) - 3*sigma):
+        for j in range(3*sigma, len(imagePadded[0]) - 3*sigma):
+            imgDx[i - 3*sigma, j - 3*sigma] = np.dot(imagePadded[i, j-3*sigma:j+3*sigma+1], kernel_1D)
+            
+    for i in range(3*sigma, len(imagePadded) - 3*sigma):
+        for j in range(3*sigma, len(imagePadded[0]) - 3*sigma):
+            imgDy[i - 3*sigma, j - 3*sigma] = np.dot(imagePadded[i - 3*sigma: i + 3*sigma + 1, j], kernel_1D)
+    
     return imgDx, imgDy
