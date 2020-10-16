@@ -86,7 +86,7 @@ plt.subplot(2,3,6)
 plt.imshow(conv2(conv2(img_imp, Gx.T, 'same'), Dx, 'same') , cmap='gray')
 plt.show()
 
-"""
+
 
 ## function gaussderiv (Question 1.e)
 
@@ -106,5 +106,5 @@ plt.sca(ax3)
 imgmag = np.sqrt(imgDx**2 + imgDy**2)
 plt.imshow(imgmag, cmap='gray')
 plt.show()
-"""
+
 
