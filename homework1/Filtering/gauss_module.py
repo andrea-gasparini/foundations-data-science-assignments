@@ -67,18 +67,7 @@ def mathGaussDx(x, sigma):
 def gaussderiv(img, sigma):
     kernel_1D = gaussdx(sigma)[0]
     
-    sigma = int(sigma)
-    imagePadded = np.pad(img, (3*sigma, 3*sigma), 'constant')
-    imgDx = np.zeros((len(img), len(img[0])))
-    imgDy = np.zeros((len(img), len(img[0])))
-    
-    
-    for i in range(3*sigma, len(imagePadded) - 3*sigma):
-        for j in range(3*sigma, len(imagePadded[0]) - 3*sigma):
-            imgDx[i - 3*sigma, j - 3*sigma] = np.dot(imagePadded[i, j-3*sigma:j+3*sigma+1], kernel_1D)
-            
-    for i in range(3*sigma, len(imagePadded) - 3*sigma):
-        for j in range(3*sigma, len(imagePadded[0]) - 3*sigma):
-            imgDy[i - 3*sigma, j - 3*sigma] = np.dot(imagePadded[i - 3*sigma: i + 3*sigma + 1, j], kernel_1D)
+    imgDx = np.apply_along_axis(func1d=lambda k: np.convolve(k, kernel_1D, 'same'), axis=0, arr=img) # applied on rows
+    imgDy = np.apply_along_axis(func1d=lambda k: np.convolve(k, kernel_1D, 'same'), axis=1, arr=img) # applied on cols
     
     return imgDx, imgDy
