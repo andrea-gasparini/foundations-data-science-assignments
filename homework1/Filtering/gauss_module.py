@@ -35,13 +35,13 @@ Output: smoothed image
 def gaussianfilter_2d(img, sigma):
     kernel_1D = gauss(sigma)[0]
     kernel = np.outer(kernel_1D, kernel_1D) # crea il kernel 2D per eseguire la convolution 
-    return conv2(img, kernel, mode='valid') # convolution img & kernel 2D.
+    return conv2(img, kernel, mode='same') # convolution img & kernel 2D.
 
 def gaussianfilter(img, sigma):    
     kernel_1D = gauss(sigma)[0] # kernel 1D da applicare alle righe e poi alle colonne    
     newImage = np.zeros((len(img), len(img[0]))) # immagine da restituire         
     newImage = convolutionImage(newImage, img, kernel_1D) # convolution sulle righe
-    newImage = convolutionImage(newImage, img, kernel_1D, row=False) # convolution sulle colonne    
+    newImage = convolutionImage(newImage, img, kernel_1D, row=False) # convolution sulle colonne
     return newImage
 
 def convolutionImage(new, old, kernel, row=True):

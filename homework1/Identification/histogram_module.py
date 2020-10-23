@@ -22,12 +22,13 @@ def normalized_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'
 
-
-    #... (your code here)
-
-
+    size = 255/num_bins # bins' size
+    img_gray = img_gray/size # normalize the image by the bins' size.
+    flattened_img_gray = img_gray.flatten() # flat the matrix
+    hists = np.bincount(flattened_img_gray.astype(int), None, num_bins) / flattened_img_gray.size
+    
+    bins = np.linspace(0, 255, num_bins + 1)
     return hists, bins
-
 
 
 #  Compute the *joint* histogram for each color channel in the image
@@ -52,17 +53,22 @@ def rgb_hist(img_color_double, num_bins):
     #Define a 3D histogram  with "num_bins^3" number of entries
     hists = np.zeros((num_bins, num_bins, num_bins))
     
+    size = 255/num_bins
+    
+    red_channel = np.floor(img_color_double[:,:,0].flatten()/size).astype(np.int)
+    green_channel = np.floor(img_color_double[:,:,1].flatten()/size).astype(np.int)
+    blue_channel = np.floor(img_color_double[:,:,2].flatten()/size).astype(np.int)
+    
     # Loop for each pixel i in the image 
     for i in range(img_color_double.shape[0]*img_color_double.shape[1]):
         # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
-        
         #... (your code here)
-        pass
-
-
+        hists[red_channel[i], blue_channel[i], green_channel[i]] += 1
     #Normalize the histogram such that its integral (sum) is equal 1
     #... (your code here)
-
+    
+    hists = hists / (128*128) # images are 128x128
+    
     #Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
     return hists
@@ -85,15 +91,22 @@ def rg_hist(img_color_double, num_bins):
 
 
     #... (your code here)
+    
+    size = 255/num_bins
 
 
     #Define a 2D histogram  with "num_bins^2" number of entries
     hists = np.zeros((num_bins, num_bins))
+    red_channel = np.floor(img_color_double[:,:,0].flatten()/size).astype(np.int)
+    green_channel = np.floor(img_color_double[:,:,1].flatten()/size).astype(np.int)
     
-    
+    for i in range(img_color_double.shape[0]*img_color_double.shape[1]):
+        # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
+        #... (your code here)
+        hists[red_channel[i], green_channel[i]] += 1
     #... (your code here)
 
-
+    hists = hists / (128*128) # images are 128x128
     #Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
 
@@ -116,14 +129,27 @@ def dxdy_hist(img_gray, num_bins):
 
 
     #... (your code here)
-
+    size = 255/num_bins
+    dx, dy = gauss_module.gaussderiv(img_gray, 3.0)
+    dx = np.floor(dx.flatten()/size).astype(np.int)
+    dy = np.floor(dy.flatten()/size).astype(np.int)
+    
+    dx[dx>6] = 6
+    dx[dx<-6] = -6
+    dy[dy>6] = 6
+    dy[dy<-6] = -6
 
     #Define a 2D histogram  with "num_bins^2" number of entries
     hists = np.zeros((num_bins, num_bins))
 
 
     #... (your code here)
-
+    for i in range(img_gray.shape[0]*img_gray.shape[1]):
+        # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
+        #... (your code here)
+        hists[dx[i], dy[i]] += 1
+    
+    hists = hists / (128*128)
 
     #Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)

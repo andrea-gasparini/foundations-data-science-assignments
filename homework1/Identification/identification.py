@@ -98,6 +98,8 @@ num_bins_color = 30
 hist1_rgb = histogram_module.rgb_hist(img1_color.astype('double'), num_bins_color)
 hist2_rgb = histogram_module.rgb_hist(img2_color.astype('double'), num_bins_color)
 
+
+
 print('Distance according to dist_l2 %f'% dist_module.dist_l2(hist1_rgb,hist2_rgb))
 print('Distance according to dist_interset %f'% dist_module.dist_intersect(hist1_rgb,hist2_rgb))
 print('Distance according to dist_chi2 %f'% dist_module.dist_chi2(hist1_rgb,hist2_rgb))
@@ -221,4 +223,3 @@ plt.figure(10)
 rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'dxdy', num_bins, ['r', 'g', 'b'])
 plt.title('dx/dy histograms')
 plt.show()
-
