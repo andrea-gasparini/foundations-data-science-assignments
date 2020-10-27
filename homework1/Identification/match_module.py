@@ -33,9 +33,15 @@ def find_best_match(model_images, query_images, dist_type, hist_type, num_bins):
     
     D = np.zeros((len(model_images), len(query_images)))
     
+    # D[i][j] = the best match is j for query i
+    for i in range(len(model_images)):
+        histogram_model = model_hists[i]
+        for j in range(len(query_images)):
+            histogram_image = query_hists[j]
+            D[i][j] = dist_module.get_dist_by_name(histogram_image, histogram_model, dist_type)
     
-    #... (your code here)
-
+    
+    best_match = np.argmin(D, axis=0)
 
     return best_match, D
 
@@ -44,11 +50,15 @@ def find_best_match(model_images, query_images, dist_type, hist_type, num_bins):
 def compute_histograms(image_list, hist_type, hist_isgray, num_bins):
     
     image_hist = []
-
-    # Compute hisgoram for each image and add it at the bottom of image_hist
-
-    #... (your code here)
-
+    
+    for img in image_list:
+        img = np.array(Image.open(img)).astype('double')
+        
+        img = rgb2gray(img) if hist_isgray else img
+        
+        image_hist.append(histogram_module.get_hist_by_name(img, num_bins, hist_type))
+        
+        
     return image_hist
 
 
@@ -61,9 +71,18 @@ def compute_histograms(image_list, hist_type, hist_isgray, num_bins):
 def show_neighbors(model_images, query_images, dist_type, hist_type, num_bins):
     
     
-    plt.figure()
-
     num_nearest = 5  # show the top-5 neighbors
-    
-    #... (your code here)
 
+    best_match, D = find_best_match(model_images, query_images, dist_type, hist_type, num_bins)
+    
+    f, axarr = plt.subplots(len(query_images), num_nearest + 1)
+    best_matches = np.argsort(D, 0)[:num_nearest, :]
+    
+    for i, image in enumerate(query_images):
+
+        neighbors = best_matches[:, i]
+        axarr[i, 0].imshow(Image.open(query_images[i]))
+        for j in range(len(neighbors)):
+            axarr[i, 1 + j].imshow(Image.open(model_images[neighbors[j]]))
+
+    plt.show()

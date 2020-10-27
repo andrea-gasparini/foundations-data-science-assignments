@@ -33,13 +33,18 @@ def plot_rpc(D, plot_color):
     
     tp = 0
     #... (your code here)
+    fp = 0
+    fn = sum(l)
     
     for idt in range(len(d)):
         tp += l[idt]
         #... (your code here)
+        fp = fp + (l[idt] == 0)
         
         #Compute precision and recall values and append them to "recall" and "precision" vectors
         #... (your code here)
+        precision.append(tp/(tp/fp))
+        recall.append(tp/fn)
     
     plt.plot([1-precision[i] for i in range(len(precision))], recall, plot_color+'-')
 

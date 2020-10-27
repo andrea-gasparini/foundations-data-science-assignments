@@ -27,7 +27,7 @@ def rgb2gray(rgb):
 
 img_color = np.array(Image.open('./model/obj100__0.png'))
 img_gray = rgb2gray(img_color.astype('double'))
-
+"""
 plt.figure(1)
 plt.subplot(1,3,1)
 plt.imshow(img_color)
@@ -43,7 +43,7 @@ plt.bar((bin_gray2[0:-1] + bin_gray2[1:])/2, hist_gray2)
 plt.show()
 
 
-
+"""
 ## more histograms (Question 2.b)
 
 #Compose and test RGB histograms (histogram_module.rgb_hist)
@@ -178,6 +178,7 @@ num_bins = 30;
 
 
 
+
 ## visualize nearest neighbors (Question 3.b)
 query_images_vis = [query_images[i] for i in np.array([0,4,9])]
 match_module.show_neighbors(model_images, query_images_vis, dist_type, hist_type, num_bins)
@@ -189,7 +190,7 @@ match_module.show_neighbors(model_images, query_images_vis, dist_type, hist_type
 num_correct = sum( best_match == range(len(query_images)) )
 print('number of correct matches: %d (%f)\n'% (num_correct, 1.0 * num_correct / len(query_images)))
 
-
+7
 
 
 
