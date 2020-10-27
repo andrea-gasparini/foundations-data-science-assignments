@@ -1,0 +1,123 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Foundations of Data Science \\ Image Filtering and Object Identification}
+\author{Andrea Gasparini, Edoardo Di Paolo, Cirillo Atalla}
+\date{October 2020}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{subcaption} % Per aggiungere caption ad immagini annidando in \begin[minipage]
+\usepackage{cprotect}   % Per utilizzare \verb in caption delle immagini
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=blue,      
+    urlcolor=blue,
+}
+\usepackage{xcolor}
+
+\begin{document}
+
+\maketitle
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
+\newpage
+
+\section{Image Filtering}
+
+\subsection{Question 1.d}
+The effect of applying a filter can be studied by observing its \textit{impulse response}. Executing the following snippet we created a test image (\autoref{fig:test-image}) in which only the central pixel has a non-zero value:
+\begin{verbatim}
+  img_imp = np.zeros([27,27])
+  img_imp[13, 13] = 1.0
+  plt.figure(1), plt.imshow(img_imp, cmap='gray')
+\end{verbatim}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.4]{images/Q1.d-F1.png}
+    \caption{Test image}
+    \label{fig:test-image}
+\end{figure}
+
+\noindent
+Executing the following snippet we created 1D Gaussian and Gaussian derivative kernels, \verb|Gx| and \verb|Dx| respectively.
+\begin{verbatim}
+  sigma = 7.0
+  [Gx, x] = gauss_module.gauss(sigma)
+  [Dx, x] = gauss_module.gaussdx(sigma)
+\end{verbatim}
+We applied the following filter combinations:
+\begin{enumerate}
+    \item First \verb|Gx|, then $ \verb|Gx|^T $
+    \item First \verb|Gx|, then $ \verb|Dx|^T $
+    \item First $ \verb|Dx|^T $, then \verb|Gx|
+    \item First \verb|Dx|, then $ \verb|Dx|^T $
+    \item First \verb|Dx|, then $ \verb|Gx|^T $
+    \item First $ \verb|Gx|^T $, then \verb|Dx|
+\end{enumerate}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q1.d-F2.png}
+    \caption{Applying filter combinations}
+    \label{fig:filter-combination}
+\end{figure}
+
+\noindent
+\newline
+As we can see in \autoref{fig:filter-combination}, the first filter combination is the result of the gaussian filter applied first on the rows and then on the columns. So we compute two 1D convolution instead of one 2D convolution due to the separability of gaussian filter.
+\newline
+The second and third image are the same, there are no differences in applying \verb|Gx| and then $\verb|Dx|^T$ or viceversa. We find an edge when we apply the first derivative filter.
+\newline
+In the fourth image there are some edges. We can see the changes from white to black and viceversa.
+\newline
+The fifth and sixth images are the same. This is the same case of 2nd and 3rd images, but the images are rotated. 
+
+
+\subsection{Question 1.e}
+We implemented a \verb|gaussderiv| method that takes an input image and generates two copies of it, smoothed according to a standard deviation $\sigma$ and derived in the directions $x$ and $y$ respectively.
+\newline
+\newline
+The results of applying \verb|gaussderiv|, with $\sigma = 7.0$, to the provided example images (\verb|graf.png| and \verb|gantrycrane.png|) are shown in Figures \ref{fig:gaussderiv-graf.png} and \ref{fig:gaussderiv-gantrycrane.png}.
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{images/Q1.e-graf.png}
+      \captionof{figure}{graf.png}
+      \label{fig:graf.png}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+      \centering
+      \includegraphics[width=.6\linewidth]{images/Q1.e-gantrycrane.png}
+      \captionof{figure}{gantrycrane.png}
+      \label{fig:gantrycrane.png}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q1.e-graf-gaussderived.png}
+    \cprotect\caption{Results of applying \verb|gaussderiv| on \verb|graf.png|}
+    \label{fig:gaussderiv-graf.png}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{images/Q1.e-gantrycrane-gaussderived.png}
+    \cprotect\caption{Results of applying \verb|gaussderiv| on \verb|gantrycrane.png|}
+    \label{fig:gaussderiv-gantrycrane.png}
+\end{figure}
+
+\noindent
+{\color{red} \large \textbf{TODO}} \textit{Comment on the output in your report}.
+\newline
+{\color{red} \large \textbf{TODO}} \textit{Consider also why smoothing an image is important before applying the derivative filter}.
+
+\end{document}
