@@ -40,7 +40,7 @@ The effect of applying a filter can be studied by observing its \textit{impulse 
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.4]{images/Q1.d-F1.png}
-    \caption{Test Image}
+    \caption{Test image}
     \label{fig:test-image}
 \end{figure}
 
@@ -69,9 +69,15 @@ We applied the following filter combinations:
 \end{figure}
 
 \noindent
-As we can see in \autoref{fig:filter-combination}, the first filter combination [...]
 \newline
-{\color{red} \large \textbf{TODO}} \textit{What happens when you apply the following filter combinations?}
+As we can see in \autoref{fig:filter-combination}, the first filter combination is the result of the gaussian filter applied first on the rows and then on the columns. So we compute two 1D convolution instead of one 2D convolution due to the separability of gaussian filter.
+\newline
+The second and third image are the same, there are no differences in applying \verb|Gx| and then $\verb|Dx|^T$ or viceversa. We find an edge when we apply the first derivative filter.
+\newline
+In the fourth image there are some edges. We can see the changes from white to black and viceversa.
+\newline
+The fifth and sixth images are the same. This is the same case of 2nd and 3rd images, but the images are rotated. 
+
 
 \subsection{Question 1.e}
 We implemented a \verb|gaussderiv| method that takes an input image and generates two copies of it, smoothed according to a standard deviation $\sigma$ and derived in the directions $x$ and $y$ respectively.
