@@ -27,7 +27,7 @@ def rgb2gray(rgb):
 
 img_color = np.array(Image.open('./model/obj100__0.png'))
 img_gray = rgb2gray(img_color.astype('double'))
-"""
+
 plt.figure(1)
 plt.subplot(1,3,1)
 plt.imshow(img_color)
@@ -43,7 +43,6 @@ plt.bar((bin_gray2[0:-1] + bin_gray2[1:])/2, hist_gray2)
 plt.show()
 
 
-"""
 ## more histograms (Question 2.b)
 
 #Compose and test RGB histograms (histogram_module.rgb_hist)
@@ -170,9 +169,12 @@ with open('query.txt') as fp:
     query_images = fp.readlines()
 query_images = [x.strip() for x in query_images] 
 
-dist_type = 'intersect';
-hist_type = 'rg';
-num_bins = 30;
+#dist_type = 'intersect';
+#hist_type = 'rg';
+
+dist_type = 'l2'
+hist_type = 'grayvalue'
+num_bins = 70
 
 [best_match, D] = match_module.find_best_match(model_images, query_images, dist_type, hist_type, num_bins)
 
@@ -193,7 +195,7 @@ print('number of correct matches: %d (%f)\n'% (num_correct, 1.0 * num_correct / 
 7
 
 
-
+"""
 
 ## plot recall_precision curves (Question 4)
 
@@ -205,7 +207,7 @@ with open('query.txt') as fp:
     query_images = fp.readlines()
 query_images = [x.strip() for x in query_images] 
 
-num_bins = 20;
+num_bins = 25;
 
 
 plt.figure(8)
@@ -224,3 +226,4 @@ plt.figure(10)
 rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'dxdy', num_bins, ['r', 'g', 'b'])
 plt.title('dx/dy histograms')
 plt.show()
+"""

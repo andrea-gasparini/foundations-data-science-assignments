@@ -54,9 +54,17 @@ def compute_histograms(image_list, hist_type, hist_isgray, num_bins):
     for img in image_list:
         img = np.array(Image.open(img)).astype('double')
         
-        img = rgb2gray(img) if hist_isgray else img
+        if hist_isgray:
+            img = rgb2gray(img)
         
-        image_hist.append(histogram_module.get_hist_by_name(img, num_bins, hist_type))
+        hist = histogram_module.get_hist_by_name(img, num_bins, hist_type)
+        
+        if len(hist) == 2:
+            hist = hist[0]
+            
+        image_hist.append(hist)
+            
+        
         
         
     return image_hist
