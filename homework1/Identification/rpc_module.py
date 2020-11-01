@@ -34,12 +34,18 @@ def plot_rpc(D, plot_color):
     tp = 0
     #... (your code here)
     
+    false_negative = num_images
+    false_positive = 0
+    
     for idt in range(len(d)):
         tp += l[idt]
         #... (your code here)
+        false_negative -= l[idt]
+        false_positive += (1 - l[idt])
         
-        #Compute precision and recall values and append them to "recall" and "precision" vectors
-        #... (your code here)
+        precision.append(tp/(tp+false_positive))
+        recall.append(tp/(tp+false_negative))
+        
     
     plt.plot([1-precision[i] for i in range(len(precision))], recall, plot_color+'-')
 
