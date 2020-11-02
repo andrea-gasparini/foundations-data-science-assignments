@@ -172,9 +172,9 @@ query_images = [x.strip() for x in query_images]
 #dist_type = 'intersect';
 #hist_type = 'rg';
 
-dist_type = 'l2'
-hist_type = 'grayvalue'
-num_bins = 70
+dist_type = 'intersect'
+hist_type = 'rgb'
+num_bins = 5
 
 [best_match, D] = match_module.find_best_match(model_images, query_images, dist_type, hist_type, num_bins)
 
@@ -195,7 +195,7 @@ print('number of correct matches: %d (%f)\n'% (num_correct, 1.0 * num_correct / 
 7
 
 
-"""
+
 
 ## plot recall_precision curves (Question 4)
 
@@ -207,7 +207,7 @@ with open('query.txt') as fp:
     query_images = fp.readlines()
 query_images = [x.strip() for x in query_images] 
 
-num_bins = 25;
+num_bins = 60;
 
 
 plt.figure(8)
@@ -226,4 +226,3 @@ plt.figure(10)
 rpc_module.compare_dist_rpc(model_images, query_images, ['chi2', 'intersect', 'l2'], 'dxdy', num_bins, ['r', 'g', 'b'])
 plt.title('dx/dy histograms')
 plt.show()
-"""

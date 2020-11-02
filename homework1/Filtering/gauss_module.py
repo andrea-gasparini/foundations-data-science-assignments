@@ -65,9 +65,9 @@ def mathGaussDx(x, sigma):
     return - 1 / (sigma**3 * sqrt(2*pi)) * x * e(-float(x)**2/(2*sigma**2))
 
 def gaussderiv(img, sigma):
-    kernel_1D = gaussdx(sigma)[0]
-    
+    kernel_1D = gaussdx(sigma)[0]    
     imgDx = np.apply_along_axis(func1d=lambda k: np.convolve(k, kernel_1D, 'same'), axis=0, arr=img) # applied on rows
     imgDy = np.apply_along_axis(func1d=lambda k: np.convolve(k, kernel_1D, 'same'), axis=1, arr=img) # applied on cols
+    
     
     return imgDx, imgDy

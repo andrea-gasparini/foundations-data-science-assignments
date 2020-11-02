@@ -90,7 +90,7 @@ plt.show()
 
 ## function gaussderiv (Question 1.e)
 
-img_c = np.array(Image.open('graf.png')).astype('double')
+img_c = np.array(Image.open('gantrycrane.png')).astype('double')
 img = rgb2gray(img_c)
 [imgDx, imgDy] = gauss_module.gaussderiv(img, 7.0)
 
