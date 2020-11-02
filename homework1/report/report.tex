@@ -10,6 +10,8 @@
 \usepackage{subcaption} % Per aggiungere caption ad immagini annidando in \begin[minipage]
 \usepackage{cprotect}   % Per utilizzare \verb in caption delle immagini
 \usepackage{hyperref}
+\usepackage{longtable}
+
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -69,19 +71,19 @@ We applied the following filter combinations:
 \end{figure}
 
 \noindent
-\newline
 As we can see in \autoref{fig:filter-combination}, the first filter combination is the result of the gaussian filter applied first on the rows and then on the columns. So we compute two 1D convolution instead of one 2D convolution due to the separability of gaussian filter.
 \newline
-The second and third image are the same, there are no differences in applying \verb|Gx| and then $\verb|Dx|^T$ or viceversa. We find an edge when we apply the first derivative filter.
+The second and third filter combinations are the same, there is no difference in applying \verb|Gx| and then $\verb|Dx|^T$ or viceversa. We find an edge when we apply the first derivative filter.
 \newline
-In the fourth image there are some edges. We can see the changes from white to black and viceversa.
+In the fourth filter combination there are some edges. We can see the changes from white to black and viceversa.
 \newline
-The fifth and sixth images are the same. This is the same case of 2nd and 3rd images, but the images are rotated. 
+The fifth and sixth filter combinations are the same. This is the same case of 2nd and 3rd, but with inverted axis; there is no difference in applying \verb|Dx| and then $\verb|Gx|^T$ or viceversa.
 
 
 \subsection{Question 1.e}
-We implemented a \verb|gaussderiv| method that takes an input image and generates two copies of it, smoothed according to a standard deviation $\sigma$ and derived in the directions $x$ and $y$ respectively.
-\newline
+We implemented a \verb|gaussderiv| method that takes an input image and generates three copies of it. The first two are smoothed according to a standard deviation $\sigma$ and derived in the directions $x$ and $y$ respectively; the third is a combination of them, obtained as $f(img_x, img_y) = \sqrt{img_x^2 + img_y^2}$ where $img_x$ and $img_y$ are corresponding pixels of the two filtered images.
+
+\noindent
 \newline
 The results of applying \verb|gaussderiv|, with $\sigma = 7.0$, to the provided example images (\verb|graf.png| and \verb|gantrycrane.png|) are shown in Figures \ref{fig:gaussderiv-graf.png} and \ref{fig:gaussderiv-gantrycrane.png}.
 
@@ -90,13 +92,13 @@ The results of applying \verb|gaussderiv|, with $\sigma = 7.0$, to the provided 
     \begin{minipage}{.5\textwidth}
       \centering
       \includegraphics[width=.6\linewidth]{images/Q1.e-graf.png}
-      \captionof{figure}{graf.png}
+      \cprotect\caption{\verb|graf.png|}
       \label{fig:graf.png}
     \end{minipage}%
     \begin{minipage}{.5\textwidth}
       \centering
       \includegraphics[width=.6\linewidth]{images/Q1.e-gantrycrane.png}
-      \captionof{figure}{gantrycrane.png}
+      \cprotect\caption{\verb|gantrycrane.png|}
       \label{fig:gantrycrane.png}
     \end{minipage}
 \end{figure}
@@ -106,18 +108,103 @@ The results of applying \verb|gaussderiv|, with $\sigma = 7.0$, to the provided 
     \includegraphics[width=\textwidth]{images/Q1.e-graf-gaussderived.png}
     \cprotect\caption{Results of applying \verb|gaussderiv| on \verb|graf.png|}
     \label{fig:gaussderiv-graf.png}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
+    
     \includegraphics[width=\textwidth]{images/Q1.e-gantrycrane-gaussderived.png}
     \cprotect\caption{Results of applying \verb|gaussderiv| on \verb|gantrycrane.png|}
     \label{fig:gaussderiv-gantrycrane.png}
 \end{figure}
 
 \noindent
-{\color{red} \large \textbf{TODO}} \textit{Comment on the output in your report}.
+Smoothing an image is important because with this process we can leave out the noise of the images.
 \newline
-{\color{red} \large \textbf{TODO}} \textit{Consider also why smoothing an image is important before applying the derivative filter}.
+\newline
+From the left plot in Figures \ref{fig:gaussderiv-graf.png} and \ref{fig:gaussderiv-gantrycrane.png} we can see the edges on the vertical axis, while in the second one we can see the edges on the horizontal axis. The third one is the combination of the previous two.
+
+\newpage
+\section{Object Identification}
+
+\subsection{Question 3.c}
+For the tests we used different combinations of distance type ($\chi^2$, \textit{intersect} and \textit{l2}), histogram type (\textit{grayvalue, rgb, rg} and \textit{dxdy}) and number of bins.
+\newline
+\newline
+These are the results we got:
+
+\begin{longtable}{|l|l|l|l|l|}
+    \hline
+    \textbf{Distance type} & \textbf{Histogram type} & \textbf{Num bins} & \textbf{Correct} & \textbf{Rate}     \\ \hline
+    intersect     & rgb            & 25       & 81      & 0.910112 \\ \hline
+    intersect     & rgb            & 15       & 78      & 0.876404 \\ \hline
+    intersect     & rg             & 25       & 75      & 0.842697 \\ \hline
+    intersect     & rg             & 15       & 74      & 0.831461 \\ \hline
+    intersect     & rgb            & 30       & 72      & 0.808989 \\ \hline
+    intersect     & rgb            & 20       & 71      & 0.797753 \\ \hline
+    intersect     & rgb            & 10       & 70      & 0.786517 \\ \hline
+    intersect     & rg             & 20       & 65      & 0.730337 \\ \hline
+    intersect     & rg             & 30       & 65      & 0.730337 \\ \hline
+    intersect     & rg             & 10       & 62      & 0.696629 \\ \hline
+    chi2          & rgb            & 5        & 60      & 0.674157 \\ \hline
+    chi2          & rgb            & 10       & 59      & 0.662921 \\ \hline
+    chi2          & rg             & 5        & 57      & 0.640449 \\ \hline
+    chi2          & rgb            & 15       & 55      & 0.617978 \\ \hline
+    l2            & rgb            & 10       & 54      & 0.606742 \\ \hline
+    chi2          & rg             & 15       & 53      & 0.595506 \\ \hline
+    l2            & rg             & 16       & 53      & 0.595506 \\ \hline
+    chi2          & rg             & 10       & 52      & 0.584270 \\ \hline
+    l2            & rg             & 10       & 52      & 0.584270 \\ \hline
+    l2            & rg             & 15       & 52      & 0.584270 \\ \hline
+    chi2          & rg             & 25       & 50      & 0.561798 \\ \hline
+    chi2          & rg             & 20       & 48      & 0.539326 \\ \hline
+    chi2          & rgb            & 20       & 46      & 0.516854 \\ \hline
+    intersect     & dxdy           & 70       & 46      & 0.516854 \\ \hline
+    intersect     & grayvalue      & 20       & 46      & 0.516854 \\ \hline
+    intersect     & grayvalue      & 35       & 46      & 0.516854 \\ \hline
+    chi2          & rgb            & 25       & 45      & 0.505618 \\ \hline
+    intersect     & grayvalue      & 10       & 45      & 0.505618 \\ \hline
+    intersect     & grayvalue      & 30       & 45      & 0.505618 \\ \hline
+    intersect     & grayvalue      & 25       & 43      & 0.483146 \\ \hline
+    intersect     & grayvalue      & 70       & 43      & 0.483146 \\ \hline
+    l2            & rgb            & 15       & 42      & 0.471910 \\ \hline
+    chi2          & rg             & 30       & 41      & 0.460674 \\ \hline
+    chi2          & dxdy           & 150      & 41      & 0.460674 \\ \hline
+    chi2          & grayvalue      & 10       & 41      & 0.460674 \\ \hline
+    intersect     & dxdy           & 35       & 40      & 0.449438 \\ \hline
+    intersect     & grayvalue      & 15       & 40      & 0.449438 \\ \hline
+    chi2          & dxdy           & 70       & 39      & 0.438202 \\ \hline
+    l2            & dxdy           & 70       & 39      & 0.438202 \\ \hline
+    l2            & grayvalue      & 10       & 39      & 0.438202 \\ \hline
+    intersect     & dxdy           & 25       & 37      & 0.415730 \\ \hline
+    intersect     & dxdy           & 30       & 37      & 0.415730 \\ \hline
+    chi2          & rgb            & 30       & 36      & 0.404494 \\ \hline
+    chi2          & grayvalue      & 15       & 36      & 0.404494 \\ \hline
+    chi2          & grayvalue      & 25       & 36      & 0.404494 \\ \hline
+    chi2          & grayvalue      & 30       & 36      & 0.404494 \\ \hline
+    l2            & grayvalue      & 15       & 36      & 0.404494 \\ \hline
+    l2            & grayvalue      & 30       & 36      & 0.404494 \\ \hline
+    intersect     & dxdy           & 20       & 35      & 0.393258 \\ \hline
+    chi2          & grayvalue      & 5        & 35      & 0.393258 \\ \hline
+    chi2          & grayvalue      & 20       & 35      & 0.393258 \\ \hline
+    chi2          & dxdy           & 30       & 34      & 0.382022 \\ \hline
+    chi2          & dxdy           & 25       & 33      & 0.370787 \\ \hline
+    l2            & dxdy           & 30       & 33      & 0.370787 \\ \hline
+    chi2          & dxdy           & 20       & 32      & 0.359551 \\ \hline
+    intersect     & dxdy           & 15       & 31      & 0.348315 \\ \hline
+    chi2          & grayvalue      & 70       & 30      & 0.337079 \\ \hline
+    chi2          & dxdy           & 15       & 29      & 0.325483 \\ \hline
+    l2            & dxdy           & 15       & 29      & 0.325483 \\ \hline
+    l2            & grayvalue      & 70       & 28      & 0.314607 \\ \hline
+    chi2          & grayvalue      & 150      & 27      & 0.303371 \\ \hline
+    chi2          & dxdy           & 5        & 25      & 0.280899 \\ \hline
+    chi2          & dxdy           & 10       & 25      & 0.280899 \\ \hline
+    l2            & dxdy           & 10       & 25      & 0.280899 \\ \hline
+    intersect     & dxdy           & 10       & 23      & 0.258427 \\ \hline 
+\end{longtable}
+
+\noindent
+As we can see that the best measure is the intersect with \textit{rgb} and \textit{rg} histogram types but with the other types (\textit{dxdy, grayvalue)} it is not very good.
+We can see also that the l2 distance is not good to recognize objects.
+\newline
+\newline
+About the histograms the best ones are rg and rgb due to their robustness. The color histograms are really useful with the intersect distance while with the other distance types the recognition rate is similar to the dxdy and grayvalue histogram types.
+We tried with different number of bins in a range from 5 to 150.
 
 \end{document}
