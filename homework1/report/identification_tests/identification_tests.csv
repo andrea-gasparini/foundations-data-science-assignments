@@ -1,4 +1,4 @@
-Distance type,Histogram type,Num bins,Correct,Rate
+﻿Distance type,Histogram type,Num bins,Correct,Rate
 intersect,rgb,25,81,0.910112
 intersect,rgb,15,78,0.876404
 intersect,rg,25,75,0.842697
