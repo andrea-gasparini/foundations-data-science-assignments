@@ -126,30 +126,24 @@ def rg_hist(img_color_double, num_bins):
 def dxdy_hist(img_gray, num_bins):
     assert len(img_gray.shape) == 2, 'image dimension mismatch'
     assert img_gray.dtype == 'float', 'incorrect image type'
-
-
-    #... (your code here)
-    size = 255/num_bins
-    dx, dy = gauss_module.gaussderiv(img_gray, 3.0)
-    dx = np.floor(dx.flatten()/size).astype(np.int)
-    dy = np.floor(dy.flatten()/size).astype(np.int)
     
-    dx[dx>6] = 6
-    dx[dx<-6] = -6
-    dy[dy>6] = 6
-    dy[dy<-6] = -6
+    dx, dy = gauss_module.gaussderiv(img_gray, 3.0)
+    generatedbins = np.linspace(-6, 6, num=num_bins + 1)
 
     #Define a 2D histogram  with "num_bins^2" number of entries
     hists = np.zeros((num_bins, num_bins))
 
+    dxdy = np.clip(np.stack((dx, dy), axis=2), -6, 6) # cap the values in the range [-6, 6] with np.clip function
+    fimg = dxdy.reshape(dxdy.shape[0]*dxdy.shape[1], 2) # reshape the arrays
+    for i in range(dxdy.shape[0]*dxdy.shape[1]):
 
-    #... (your code here)
-    for i in range(img_gray.shape[0]*img_gray.shape[1]):
-        # Increment the histogram bin which corresponds to the R,G,B value of the pixel i
-        #... (your code here)
-        hists[dx[i], dy[i]] += 1
-    
-    hists = hists / (128*128)
+        
+        dx_bin = np.where(generatedbins <= fimg[i, 0])[0][-1] if fimg[i, 0] != 6 else generatedbins.size - 2 # choose bins.size - 2 if current pixel is != 6
+        dy_bin = np.where(generatedbins <= fimg[i, 1])[0][-1] if fimg[i, 1] != 6 else generatedbins.size - 2
+        hists[dx_bin, dy_bin] += 1
+
+    # Normalize the histogram such that its integral (sum) is equal 1
+    hists = hists / hists.sum()
 
     #Return the histogram as a 1D vector
     hists = hists.reshape(hists.size)
