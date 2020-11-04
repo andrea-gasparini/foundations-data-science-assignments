@@ -2,7 +2,13 @@
 \usepackage[utf8]{inputenc}
 
 \title{Foundations of Data Science \\ Image Filtering and Object Identification}
-\author{Andrea Gasparini, Edoardo Di Paolo, Cirillo Atalla}
+\author{
+	Andrea Gasparini \\ \texttt{1813486}
+	\and
+	Edoardo Di Paolo \\ \texttt{1728334}
+	\and
+	Cirillo Atalla \\ \texttt{1755033}
+}
 \date{October 2020}
 
 \usepackage{natbib}
@@ -127,7 +133,7 @@ From the left plot in Figures \ref{fig:gaussderiv-graf.png} and \ref{fig:gaussde
 For the tests we used different combinations of distance type ($\chi^2$, \textit{intersect} and \textit{l2}), histogram type (\textit{grayvalue, rgb, rg} and \textit{dxdy}) and number of bins.
 \newline
 \newline
-These are the results we got:
+These are the results we got (sorted by rate):
 
 \begin{longtable}{|l|l|l|l|l|}
     \hline
@@ -206,5 +212,91 @@ We can see also that the l2 distance is not good to recognize objects.
 \newline
 About the histograms the best ones are rg and rgb due to their robustness. The color histograms are really useful with the intersect distance while with the other distance types the recognition rate is similar to the dxdy and grayvalue histogram types.
 We tried with different number of bins in a range from 5 to 150.
+
+\newpage
+\section{Performance Evaluation: RPC Curves}
+\subsection{Question 4.b}
+From the following histograms, we can observe different patterns. As for the object identification tests, the \textit{dxdy} histograms perform worse than the others.
+We can see from the plot that the intersect distance is the best with the rgb histograms. In general the \textit{l2} and $\chi^2$ are less accurate than the intersect distance.
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-rg_histogram_5_bins.png}
+        \caption{5 bins, rg histogram}
+    \end{minipage}\hfill
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-dxdy_histogram_5_bins.png}
+        \caption{5 bins, dxdy histogram}
+    \end{minipage}
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-rgb_histogram_5_bins.png}
+        \caption{5 bins, rgb histogram}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-rg_histogram_10_bins.png}
+        \caption{10 bins, rg histogram}
+    \end{minipage}\hfill
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-rgb_histogram_10_bins.png}
+        \caption{10 bins, rgb histogram}
+    \end{minipage}
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-dxdy_histogram_10_bins.png}
+        \caption{10 bins, dxdy histogram}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-rg_histogram_15_bins.png}
+        \caption{15 bins, rg histogram}
+    \end{minipage}\hfill
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-rgb_histogram_15_bins.png}
+        \caption{15 bins, rgb histogram}
+    \end{minipage}
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-dxdy_histogram_15_bins.png}
+        \caption{15 bins, dxdy histogram}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+        \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-rg_histogram_30_bins.png}
+        \caption{30 bins, rg histogram}
+    \end{minipage}\hfill
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-rgb_histogram_30_bins.png}
+        \caption{30 bins, rgb histogram}
+    \end{minipage}
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-dxdy_histogram_30_bins.png}
+        \caption{30 bins, dxdy histogram}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-rg_histogram_60_bins.png}
+        \caption{60 bins, rgb histogram}
+    \end{minipage}\hfill
+    \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-rgb_histogram_60_bins.png}
+        \caption{60 bins, rgb histogram}
+    \end{minipage}
+        \begin{minipage}{.5\textwidth}
+        \includegraphics[width=\linewidth]{images/Q4.b-dxdy_histogram_60_bins.png}
+        \caption{60 bins, dxdy histogram}
+    \end{minipage}
+\end{figure}
 
 \end{document}
