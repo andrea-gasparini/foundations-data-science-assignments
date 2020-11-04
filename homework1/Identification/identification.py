@@ -22,7 +22,6 @@ def rgb2gray(rgb):
 
 
 
-
 ## gray-value histograms (Question 2.a)
 
 img_color = np.array(Image.open('./model/obj100__0.png'))
@@ -173,8 +172,8 @@ query_images = [x.strip() for x in query_images]
 #hist_type = 'rg';
 
 dist_type = 'intersect'
-hist_type = 'rgb'
-num_bins = 5
+hist_type = 'grayvalue'
+num_bins = 10
 
 [best_match, D] = match_module.find_best_match(model_images, query_images, dist_type, hist_type, num_bins)
 
@@ -207,7 +206,7 @@ with open('query.txt') as fp:
     query_images = fp.readlines()
 query_images = [x.strip() for x in query_images] 
 
-num_bins = 60;
+num_bins = 10;
 
 
 plt.figure(8)
