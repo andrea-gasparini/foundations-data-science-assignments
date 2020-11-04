@@ -83,14 +83,15 @@ def show_neighbors(model_images, query_images, dist_type, hist_type, num_bins):
 
     best_match, D = find_best_match(model_images, query_images, dist_type, hist_type, num_bins)
     
-    f, axarr = plt.subplots(len(query_images), num_nearest + 1)
+    figure, axs = plt.subplots(len(query_images), num_nearest + 1)
     best_matches = np.argsort(D, 0)[:num_nearest, :]
     
     for i, image in enumerate(query_images):
-
-        neighbors = best_matches[:, i]
-        axarr[i, 0].imshow(Image.open(query_images[i]))
-        for j in range(len(neighbors)):
-            axarr[i, 1 + j].imshow(Image.open(model_images[neighbors[j]]))
+        neighbors_images = best_matches[:, i]
+        
+        axs[i, 0].imshow(Image.open(query_images[i]))
+        for j in range(len(neighbors_images)):
+            
+            axs[i, 1 + j].imshow(Image.open(model_images[neighbors_images[j]]))
 
     plt.show()
