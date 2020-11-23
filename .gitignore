@@ -1,5 +1,6 @@
 .vscode
 __pycache__
+.ipynb_checkpoints
 
 ## Core LaTeX auxiliary files
 *.aux
